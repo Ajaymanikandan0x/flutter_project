@@ -11,6 +11,7 @@ void main() {
     routes: {
       '/': (context) => splsh(),
       '/home': (context) => home(),
+      '/loading': (context) => loading(),
       // '/choose_location': (context) => choose_location()
     },
   ));

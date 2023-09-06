@@ -92,7 +92,8 @@ class _homeState extends State<home> {
 
   sigout(BuildContext context) async {
     final _sherdprif = await SharedPreferences.getInstance();
-    await _sherdprif.clear();
+    await _sherdprif.remove('password');
+    await _sherdprif.remove('username');
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => loading()), (route) => false);
   }

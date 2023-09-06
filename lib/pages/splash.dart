@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:world_clock/Pages/home.dart';
@@ -16,48 +17,39 @@ class _splshState extends State<splsh> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(
-      Duration(seconds: 3),
-      () {},
-    );
+    Setstore(context);
+    Timer((Duration(seconds: 3)), () {
+      Navigator.pushNamed(context, '/loading');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Setstore(context);
     return Scaffold(
-      backgroundColor: Colors.teal[300],
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.teal, Colors.white54],
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft),
-        ),
-        child: const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                Icons.network_check,
-                size: 50,
-                color: Colors.blue,
-              ),
-              Text('Loading',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      wordSpacing: 1)),
-            ]),
+        body: Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            // stops: [0.5, .10],
+            colors: [Colors.blue, Colors.redAccent]),
       ),
-    );
+      child: Center(
+          child: SpinKitWaveSpinner(
+        color: Colors.white,
+        size: 50.0,
+      )),
+    ));
   }
 }
 
 Future<void> Setstore(BuildContext context) async {
   final sharprif = await SharedPreferences.getInstance();
-  final saveValue = sharprif.getString('Save_value');
-  if (saveValue != null) {
+  final saveValue =
+      '${sharprif.getString('password')}${sharprif.getString('username')}';
+  if (saveValue.isNotEmpty) {
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => home()));
   }

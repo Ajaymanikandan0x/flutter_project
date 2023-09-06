@@ -9,7 +9,8 @@ class loading extends StatefulWidget {
   State<loading> createState() => _loadingState();
 }
 
-final _TextEditControl = TextEditingController();
+final _username = TextEditingController();
+final _password = TextEditingController();
 
 class _loadingState extends State<loading> {
   @override
@@ -51,7 +52,7 @@ class _loadingState extends State<loading> {
                 ],
               ),
               TextField(
-                controller: _TextEditControl,
+                controller: _username,
                 decoration: InputDecoration(
                   hintText: AutofillHints.username,
                   border: OutlineInputBorder(
@@ -77,6 +78,7 @@ class _loadingState extends State<loading> {
                 ],
               ),
               TextField(
+                controller: _password,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: AutofillHints.password,
@@ -96,11 +98,6 @@ class _loadingState extends State<loading> {
                           borderRadius: BorderRadius.circular(30))),
                   onPressed: () {
                     DataStore();
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => home(),
-                      ),
-                    );
                   },
                   child: Text('login')),
             ],
@@ -109,10 +106,26 @@ class _loadingState extends State<loading> {
       ),
     );
   }
-}
 
-Future<void> DataStore() async {
-  print(_TextEditControl.text);
-  final shareprif = await SharedPreferences.getInstance();
-  await shareprif.setString('saveValue', _TextEditControl.text);
+  Future<void> DataStore() async {
+    print(_username.text);
+
+    final shareprif = await SharedPreferences.getInstance();
+    await shareprif.setString('username', _username.text);
+    await shareprif.setString('password', _password.text);
+
+    if (_username.text.isNotEmpty && _password.text.isNotEmpty) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => home(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('user name and password note match'),
+        ),
+      );
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:world_clock/Pages/home.dart';
 import 'package:world_clock/pages/loading.dart';
 
 class choose_location extends StatefulWidget {
@@ -18,7 +19,7 @@ class _choose_locationState extends State<choose_location> {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.teal,
-        title: Text('Home'),
+        title: Text(widget.name),
         centerTitle: true,
         actions: [
           PopupMenuButton(
@@ -67,9 +68,16 @@ class _choose_locationState extends State<choose_location> {
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            Container(
-              child: Text('ha'),
+            TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                prefixIcon: Icon(Icons.mic),
+              ),
+              autocorrect: true,
             )
           ],
         ),
